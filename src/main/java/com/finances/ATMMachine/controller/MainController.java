@@ -1,6 +1,7 @@
 package com.finances.ATMMachine.controller;
 
 
+import com.finances.ATMMachine.dto.AmountDTO;
 import com.finances.ATMMachine.entity.Client;
 import com.finances.ATMMachine.service.BankService;
 import com.finances.ATMMachine.service.ClientService;
@@ -25,4 +26,11 @@ public class MainController {
     public ResponseEntity<?> saveClient(@RequestBody Client client) {
         return new ResponseEntity<>(clientService.save(client), HttpStatus.OK);
     }
+
+    //main functionality        //TODO
+    @PostMapping("/deposit")                                         // TODO
+    public ResponseEntity<?> deposit(@RequestBody AmountDTO amount) {
+        return new ResponseEntity<>(clientService.deposit(amount), HttpStatus.OK);
+    }
+
 }
