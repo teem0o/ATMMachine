@@ -1,5 +1,6 @@
 package com.finances.ATMMachine.entity;
 
+import com.finances.ATMMachine.enums.AuthenticationType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class User {
     private String phone;
 
     // sus
-    private String authenticationType;
+    private AuthenticationType authenticationType;
     private String twoFaCode;
     private Long twoFaExpireTime;
 //    private LocalDateTime twoFaExpireTime;

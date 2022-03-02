@@ -2,7 +2,9 @@ package com.finances.ATMMachine.config;
 
 import com.finances.ATMMachine.entity.SystemUserDetails;
 import com.finances.ATMMachine.entity.User;
+import com.finances.ATMMachine.enums.AuthenticationType;
 import com.finances.ATMMachine.service.EmailService;
+import com.finances.ATMMachine.service.SMSService;
 import com.finances.ATMMachine.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +31,8 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private SMSService smsService;
     @Autowired
     private UserService userService;
 
@@ -59,7 +63,11 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         SystemUserDetails userSystemDetails = (SystemUserDetails) userDetails;
         User user = userSystemDetails.getUser();
         String twoFaCode = String.valueOf(new Random().nextInt(9999) + 1000);
-        emailService.sendEmail(user.getEmail(),twoFaCode);
+        if (user.getAuthenticationType()== AuthenticationType.EMAIL){
+            emailService.sendEmail(user.getEmail(),twoFaCode);
+        }else {
+            smsService.sendSMS(user.getPhone(),twoFaCode);
+        }
         userService.updateTwoFaCode(user.getId(),twoFaCode);
 
         return new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());

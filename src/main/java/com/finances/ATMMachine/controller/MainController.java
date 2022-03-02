@@ -27,8 +27,8 @@ public class MainController {
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
-    //main functionality        //TODO
-    @PostMapping("/deposit")                                         // TODO
+
+    @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@RequestBody AmountDTO amount) {
         return new ResponseEntity<>(userService.deposit(amount), HttpStatus.OK);
     }
