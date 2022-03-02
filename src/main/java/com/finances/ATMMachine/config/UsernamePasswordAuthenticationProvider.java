@@ -53,7 +53,7 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         }
         if (!passwordEncoder().matches(password, userDetails.getPassword())) {
             log.info("Current login person: {}, current login password: {}", username, password);
-            throw new BadCredentialsException("User password is incorrect");
+            throw new BadCredentialsException("bad credentials");
         }
             // check which auth type
         SystemUserDetails userSystemDetails = (SystemUserDetails) userDetails;

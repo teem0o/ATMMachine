@@ -23,10 +23,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query("update User u set u.twoFaCode = :code, u.twoFaExpireTime = current_timestamp where u.id=:id")
-    void updateTwoFaCode(@Param(value = "id") long id, @Param(value = "code") String code);
+    @Query("update User u set u.twoFaCode = :code, u.twoFaExpireTime = :time where u.id=:id")               // as aprameter
+    void updateTwoFaCode(@Param(value = "id") long id, @Param(value = "code") String code,@Param(value = "time") long time);
 
     @Query("select case when count(u)>0 THEN true ELSE false END from User u where u.twoFaCode=:code and u.id=:id and u.twoFaExpireTime>:time")
-    boolean checkCode(@Param(value = "id") long id, @Param(value = "code") String code, long time);
+    boolean checkCode(@Param(value = "id") long id, @Param(value = "code") String code,@Param(value = "time") long time);
 
 }

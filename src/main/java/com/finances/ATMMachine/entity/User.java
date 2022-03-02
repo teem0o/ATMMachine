@@ -21,7 +21,8 @@ public class User {
     // sus
     private String authenticationType;
     private String twoFaCode;
-    private LocalDateTime twoFaExpireTime;
+    private Long twoFaExpireTime;
+//    private LocalDateTime twoFaExpireTime;
 //    private String pin;
 //    private String fingerprintCode;
 

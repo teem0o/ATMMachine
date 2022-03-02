@@ -39,7 +39,7 @@ public class UserService {
         return userRepository.findAll();
     }
     public void updateTwoFaCode( long id, String code){
-        userRepository.updateTwoFaCode(id,code);
+        userRepository.updateTwoFaCode(id,code,(System.currentTimeMillis()/1000) + 120);
     }
     public boolean checkCode(long id, String code){
         return userRepository.checkCode(id,code,System.currentTimeMillis()/1000);
