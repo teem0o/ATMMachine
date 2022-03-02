@@ -23,7 +23,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        log.info("login successful:{}", authentication.getPrincipal());
+        log.info("login half way done:{}", authentication.getPrincipal());
         PrintWriter writer = response.getWriter();
         writer.print(JSON.toJSONString(Result.success(authentication.getPrincipal().toString())));
         writer.flush();

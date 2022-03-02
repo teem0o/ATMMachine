@@ -3,6 +3,7 @@ package com.finances.ATMMachine.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -18,10 +19,11 @@ public class User {
     private String phone;
 
     // sus
-    private String pin;
-    private String fingerprintCode;
-    private String textCode;
     private String authenticationType;
+    private String twoFaCode;
+    private LocalDateTime twoFaExpireTime;
+//    private String pin;
+//    private String fingerprintCode;
 
 
     //    @OneToMany(mappedBy = "user")

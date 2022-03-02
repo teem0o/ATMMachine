@@ -19,11 +19,22 @@ public class LoginController {
     @PostMapping("/auth/login")
     public void login(@RequestParam(name = "username", required = true) String username,
                       @RequestParam(name = "password", required = true) String password) {
-        System.out.println(username+password);
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verify(@RequestParam(name = "id", required = true) long id,
+                                    @RequestParam(name = "twoFaCode", required = true) String twoFaCode) {
+        if (userService.checkCode(id, twoFaCode)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<?> getUseres() {
+    public ResponseEntity<?> getUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
+
+
 }

@@ -1,5 +1,9 @@
 package com.finances.ATMMachine.config;
 
+import com.finances.ATMMachine.entity.SystemUserDetails;
+import com.finances.ATMMachine.entity.User;
+import com.finances.ATMMachine.service.EmailService;
+import com.finances.ATMMachine.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,18 +19,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Random;
+
 @Slf4j
 public class UsernamePasswordAuthenticationProvider implements AuthenticationProvider {
     @Getter
     @Setter
     private UserDetailsService userDetailsService;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private UserService userService;
 
     public UsernamePasswordAuthenticationProvider(UserDetailsService userDetailsService) {
         super();
         this.userDetailsService = userDetailsService;
     }
+
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -45,6 +55,13 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
             log.info("Current login person: {}, current login password: {}", username, password);
             throw new BadCredentialsException("User password is incorrect");
         }
+            // check which auth type
+        SystemUserDetails userSystemDetails = (SystemUserDetails) userDetails;
+        User user = userSystemDetails.getUser();
+        String twoFaCode = String.valueOf(new Random().nextInt(9999) + 1000);
+        emailService.sendEmail(user.getEmail(),twoFaCode);
+        userService.updateTwoFaCode(user.getId(),twoFaCode);
+
         return new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
     }
 
