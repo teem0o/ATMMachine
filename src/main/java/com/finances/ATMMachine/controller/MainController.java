@@ -28,9 +28,23 @@ public class MainController {
     }
 
 
-    @PostMapping("/deposit")
-    public ResponseEntity<?> deposit(@RequestBody AmountDTO amount) {
-        return new ResponseEntity<>(userService.deposit(amount), HttpStatus.OK);
+    @GetMapping("/deposit/{bankCode}/{amount}")
+    public ResponseEntity<?> deposit(@PathVariable String bankCode,@PathVariable float amount) {
+        return new ResponseEntity<>(bankService.deposit(bankCode,amount), HttpStatus.OK);
     }
-
+    @GetMapping("/withdraw/{bankCode}/{amount}")
+    public ResponseEntity<?> withDraw(@PathVariable String bankCode,@PathVariable float amount) {
+        try {
+            return new ResponseEntity<>(bankService.withDraw(bankCode,amount), HttpStatus.OK);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(e.getMessage());
+        }
+    }
+    @GetMapping("/balance/{bankCode}")
+    public ResponseEntity<?> checkBalance(@PathVariable String bankCode) {
+        return new ResponseEntity<>(bankService.checkBalance(bankCode), HttpStatus.OK);
+    }
 }

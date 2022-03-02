@@ -12,7 +12,7 @@ public class Bank {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true, nullable = false)
     private long id;
-    private String IbanCode;
+    private String ibanCode;
     private float cashUSD;
 
     @ManyToOne

@@ -1,14 +1,18 @@
 package com.finances.ATMMachine.dto;
 
+import lombok.Data;
+
+@Data
 public class AmountDTO {
 
-    float amount;
+    private String username;
+    private String bankCode;
+    private float amount;
 
-    public float getAmount() {
-        return amount;
-    }
 
-    public void setAmount(float amount) {
-        this.amount = amount;
+    public AmountDTO(String username, String bankCode, float cashUSD) {
+        this.username=username;
+        this.bankCode=bankCode;
+        this.amount=cashUSD;
     }
 }
