@@ -1,5 +1,6 @@
 package com.finances.ATMMachine.controller;
 
+import com.finances.ATMMachine.service.AuthService;
 import com.finances.ATMMachine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,8 @@ public class LoginController {
 
     @Autowired
     UserService userService;
-
+    @Autowired
+    AuthService authService;
 
     @PostMapping("/auth/login")
     public void login(@RequestParam(name = "username", required = true) String username,
@@ -24,7 +26,7 @@ public class LoginController {
     @PostMapping("/verify")
     public ResponseEntity<?> verify(@RequestParam(name = "id", required = true) long id,
                                     @RequestParam(name = "twoFaCode", required = true) String twoFaCode) {
-        if (userService.checkCode(id, twoFaCode)){
+        if (authService.checkCode(id, twoFaCode)){
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

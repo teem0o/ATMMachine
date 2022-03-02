@@ -3,6 +3,7 @@ package com.finances.ATMMachine.config;
 import com.finances.ATMMachine.entity.SystemUserDetails;
 import com.finances.ATMMachine.entity.User;
 import com.finances.ATMMachine.enums.AuthenticationType;
+import com.finances.ATMMachine.service.AuthService;
 import com.finances.ATMMachine.service.EmailService;
 import com.finances.ATMMachine.service.SMSService;
 import com.finances.ATMMachine.service.UserService;
@@ -35,6 +36,8 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
     private SMSService smsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthService authService;
 
     public UsernamePasswordAuthenticationProvider(UserDetailsService userDetailsService) {
         super();
@@ -68,7 +71,7 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         }else {
             smsService.sendSMS(user.getPhone(),twoFaCode);
         }
-        userService.updateTwoFaCode(user.getId(),twoFaCode);
+        authService.updateTwoFaCode(user.getId(),twoFaCode);
 
         return new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
     }
