@@ -36,7 +36,7 @@ public class MainController {
     public ResponseEntity<?> withDraw(@PathVariable String bankCode,@PathVariable float amount) {
         try {
             return new ResponseEntity<>(bankService.withDraw(bankCode,amount), HttpStatus.OK);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalStateException e) {
             e.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)

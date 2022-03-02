@@ -38,7 +38,7 @@ public class BankService {
     }
 
 
-    public Bank withDraw(String bankCode, float amount) throws IllegalAccessException {
+    public Bank withDraw(String bankCode, float amount)  {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
         if (principal instanceof UserDetails) {
@@ -49,7 +49,7 @@ public class BankService {
         User user = userService.getUserByUserName(username);
         Bank bank = findBankByUserAndIbanCode(user, bankCode);
         if (bank.getCashUSD()<amount){
-            throw new IllegalAccessException("not enough money");
+            throw new IllegalStateException("not enough money");
         }
         bankRepository.setAmount(bankCode, bank.getCashUSD() - amount);
         return bank;
